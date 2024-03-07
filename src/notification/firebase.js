@@ -47,7 +47,7 @@ export const ganerateToken = async (notificationData) => {
 
 
 let message = {
-  to:"c6xXI3aXIvZjvyyz0h-ZWA:APA91bFOoHErX2am5-cPmIzMjSqFBq6BQYI-psGkgEbwKIdQ4YHaFiHZLunohxJ2YpMpOCvGe_lPSLxL-fLoLIvr99kDOgetLfaSThXdL7NzOelCv7uOOwcFQs2kEQzA4rXCNgrXWsmH",
+  to:token,
   notification:{
     title: notificationData.title,
     body: notificationData.body,
@@ -72,7 +72,7 @@ try {
   });
 
 
-console.log(res);
+ 
 
  
   // Handle response
@@ -84,18 +84,18 @@ console.log(res);
 
 
 
-  // try {
-  //   let res = await fetch("https://push-notification-yht6.onrender.com/token", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       token,
-  //     },
-  //   });
-  //   // Handle response
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  try {
+    let res = await fetch("https://push-notification-yht6.onrender.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+    });
+    // Handle response
+  } catch (error) {
+    console.error(error);
+  }
 
 
 

@@ -47,7 +47,7 @@ const handlepermision = async()=>{
 
   return (
     <div className="App">
-     <img src={logo} className="app-logo" alt="logo" />
+     <img src={logo} className="app-logo" alt="logo"  width="400px" height="500px"/>
       <form onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Title" value={notificationData.title} onChange={handleChange} />
         <input type="text" name="body" placeholder="Body" value={notificationData.body} onChange={handleChange} />
