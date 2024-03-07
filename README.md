@@ -164,6 +164,7 @@ npm install --save firebase
 Next, I will create a new file called `firebase.js` and add the following lines of code:
 
 ```js
+
 import { initializeApp } from 'firebase/app';
 import { getToken, getMessaging, onMessage } from 'firebase/messaging';
 
@@ -176,12 +177,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID
 };
 
-console.log('*** Environment ***', process.env.REACT_APP_ENV)
-console.log('*** Firebase Config ***', firebaseConfig)
+ 
 
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
 ```
+
 
 Last but not least, we’ll create a function called `getFirebaseToken` that uses the Firebase `getToken` method. This allows you to receive push notifications. If notification permission has not been granted, this method will request the user for permission to notification. Otherwise, it returns the token or rejects the promise due to an error.
 
@@ -199,24 +200,89 @@ You can get by clicking `Project overview > Project settings > Cloud Messaging` 
 We will use a service worker to work with push notifications. Service worker is a script that works in the background of the browser without user interaction. We don’t have a [service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) right now, but we’ll create one in the next section.
 
 ```js
-export const getOrRegisterServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    return window.navigator.serviceWorker
-      .getRegistration('/firebase-push-notification-scope')
-      .then((serviceWorker) => {
-        if (serviceWorker) return serviceWorker;
-        return window.navigator.serviceWorker.register('/firebase-messaging-sw.js', {
-          scope: '/firebase-push-notification-scope',
-        });
-      });
+
+export const ganerateToken = async (notificationData) => {
+   
+  let permission = Notification.permission;
+
+   
+  if (permission !== "granted") {
+    permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+     
+      console.log("Notification permission denied.");
+      return;
+    }
   }
-  throw new Error('The browser doesn`t support service worker.');
+
+
+  const token = await getToken(messaging, {
+    vapidKey:
+      "BJg4xH49f04vbw4Ssw1-NPfST1b6IhL3LJDuqLV2_VZDac8icey0O5b0A7Tgb-N58VdBYh52dvwpsbyl0KS09Ro",
+  });
+
+ 
+
+
+let message = {
+  to:token,
+  notification:{
+    title: notificationData.title,
+    body: notificationData.body,
+    
+  }
+}
+ 
+
+
+try {
+  let res = await fetch("https://fcm.googleapis.com/fcm/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `key= AAAA5w3H21I:APA91bGybyMHxhFtgrmQW0hQDZkrMELWndMhHQuoVjqwAHEkR4qfJcmmNVRVIh5D9Lh9I1ZILTVmnfZcy3asEh5egO62e2k7QzQSRPR7gg5ZTBfSOvgwYDswgIqSnQwWZ04HnwtyB94J` 
+    },
+
+    
+    body: JSON.stringify(message)
+
+    
+  });
+
+
+ 
+
+ 
+  // Handle response
+} catch (error) {
+  console.error(error);
+}
+
+
+
+
+
+  try {
+    let res = await fetch("https://push-notification-yht6.onrender.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+    });
+    // Handle response
+  } catch (error) {
+    console.error(error);
+  }
+
+
+
 };
 
-export const getFirebaseToken = () =>
-  getOrRegisterServiceWorker()
-    .then((serviceWorkerRegistration) =>
-      getToken(messaging, { vapidKey: process.env.REACT_APP_VAPID_KEY, serviceWorkerRegistration }));
+
+
+
+
 ```
 
 Above, I created a `getOrRegisterServiceWorker` method to try and get the service worker if it exists, otherwise it will register a new one.
@@ -293,30 +359,43 @@ Cool, we are almost done.
 In order to receive push notifications in the background, we should create a `firebase-messaging-sw.js` service worker file in the public folder of our React app with the following code:
 
 ```js
-importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js');
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here. Other Firebase libraries
+// are not available in the service worker.
+importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBFZTdA0uHb7_LMTDJowvRJDjDcmzEoTLQ",
-  authDomain: "fir-push-notifications-804ed.firebaseapp.com",
-  projectId: "fir-push-notifications-804ed",
-  storageBucket: "fir-push-notifications-804ed.appspot.com",
-  messagingSenderId: "963673480986",
-  appId: "1:963673480986:web:d9d5619c29fede473d56a3"
-};
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+firebase.initializeApp({
+    apiKey: "AIzaSyB1Dny2lUB65CXk_FCF7vwG8mq_OwI60ys",
+    authDomain: "push-edbf5.firebaseapp.com",
+    projectId: "push-edbf5",
+    storageBucket: "push-edbf5.appspot.com",
+    messagingSenderId: "992368646994",
+    appId: "1:992368646994:web:116eb7eac561ee0ec1f88b",
+  });
 
-firebase.initializeApp(firebaseConfig);
-
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('Received background message: ', payload);
+    console.log(
+      '[firebase-messaging-sw.js] Received background message ',
+      payload
+    );
+    // Customize notification here
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+      body: payload.notification.body,
+      icon: payload.notification.image
+    };
+  
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  });
 
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = { body: payload.notification.body };
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
 ```
 
 This service worker will handle all notifications coming to the app while it is in the background.
@@ -326,20 +405,27 @@ This service worker will handle all notifications coming to the app while it is 
 For foreground notifications, we need to add this code to the `firebase.js` file:
 
 ```js
-import { initializeApp } from 'firebase/app';
-import { getToken, getMessaging, onMessage } from 'firebase/messaging';
 
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken } from "firebase/messaging";
+
+ 
 const firebaseConfig = {
-  ...
+  apiKey: "AIzaSyB1Dny2lUB65CXk_FCF7vwG8mq_OwI60ys",
+  authDomain: "push-edbf5.firebaseapp.com",
+  projectId: "push-edbf5",
+  storageBucket: "push-edbf5.appspot.com",
+  messagingSenderId: "992368646994",
+  appId: "1:992368646994:web:116eb7eac561ee0ec1f88b",
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
 
-...
+ 
+const app = initializeApp(firebaseConfig);
 
-export const onForegroundMessage = () =>
-  new Promise((resolve) => onMessage(messaging, (payload) => resolve(payload)));
+ 
+const messaging = getMessaging(app);
+
 ```
 
 Last, We need to use `onForegroundMessage` in `App.js` file:
@@ -361,18 +447,18 @@ Now we are all set to receive both foreground and background notifications in ou
 ## Let’s Test Our Push Notifications
 
 We can test by going to the `Firebase Console > Cloud Messaging > Send First Message`.
-
+```
 
 <img width="828" alt="example10" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/7cdd04cf-b3f7-4151-9b1f-6479a52b97e7">
 
-
+```
 <img width="828" alt="example11" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/ab590df7-9d50-4b2f-8426-2847f506dfda">
 
 
- 
+ ```
 <img width="828" alt="example12" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/a37756cf-0438-4bf6-acf0-f05ca9a55840">
 
- 
+ ```
 <img width="835" alt="demo" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/b036cecc-cd4a-4977-8ca0-82432fcd6919">
 
 # Conclusion
