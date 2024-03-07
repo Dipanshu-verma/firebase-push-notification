@@ -75,7 +75,7 @@ function App() {
 ## HERE ITS LOOK LIKE
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example1.gif"/>
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example1.png"/>
 
 </p>
 
@@ -352,7 +352,7 @@ We can test by going to the `Firebase Console > Cloud Messaging > Send First Mes
 </p>
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/demo.gif"/>
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/demo.png"/>
 </p>
 
 # Conclusion
