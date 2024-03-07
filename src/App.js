@@ -3,14 +3,19 @@ import logo from "./assets/sparky-dash-high-five.gif";
 import "./App.css";
 import { useState } from "react";
 import { useEffect } from "react";
-import { ganerateToken } from "./notification/firebase";
-import { getMessaging, onMessage } from "firebase/messaging";
-
+import {
+  ganerateToken,
+  ganerateTokenforcurrentuser,
+  messaging,
+} from "./notification/firebase";
+// import { getMessaging } from "firebase/messaging";
+import { onMessage } from "firebase/messaging";
 function App() {
   const [notificationData, setNotificationData] = useState({
     title: "",
     body: "",
     imageUrl: "",
+    token: "",
   });
 
   const handleChange = (e) => {
@@ -26,16 +31,34 @@ function App() {
     ganerateToken(notificationData);
   };
 
-  
-
   useEffect(() => {
-    ganerateToken(notificationData);
-    onMessage(getMessaging, (payload) => {
-      console.log(payload);
-    });
+    const requestNotificationPermission = async () => {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        ganerateTokenforcurrentuser();
+
+        onMessage(messaging, (payload) => {
+          console.log("[firebase-messaging-sw.js] Received message", payload);
+          if (payload.notification) {
+            const { title, body, image } = payload.notification;
+            const notificationOptions = {
+              body,
+              icon: image,
+            };
+            new Notification(title, notificationOptions);
+          } else {
+            console.log("Payload does not contain a notification object");
+          }
+        });
+      } else {
+        console.log("Notification permission denied.");
+      }
+    };
+
+    requestNotificationPermission();
   }, []);
 
-
+  console.log(notificationData);
 
   return (
     <div className="App">
@@ -47,6 +70,13 @@ function App() {
         height="500px"
       />
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="token"
+          placeholder="token"
+          value={notificationData.token}
+          onChange={handleChange}
+        />
         <input
           type="text"
           name="title"
