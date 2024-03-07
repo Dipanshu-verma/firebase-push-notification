@@ -43,41 +43,78 @@ Great, we’ve successfully created and launched our web app.
 After creating the project with the initial codebase, we have the src/App.js file for the main page. We need to update it so it looks like this:
 
 ```js
+// App.js
 import logo from './assets/sparky-dash-high-five.gif';
 import './App.css';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { ganerateToken } from './notification/firebase';
-import { getMessaging, onMessage} from 'firebase/messaging';
-
-
+import { getMessaging, onMessage } from 'firebase/messaging';
 
 function App() {
-
-  useEffect(()=>{
-    ganerateToken()
-    
-    onMessage(getMessaging,(payload)=>{
-      console.log(payload);
-
-    })
-  },[])
+  const [notificationData, setNotificationData] = useState({
+    title: '',
+    body: '',
+    imageUrl: '',
   
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNotificationData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    ganerateToken(notificationData);
+  };
+
+  useEffect(() => {
+    onMessage(getMessaging, (payload) => {
+      console.log(payload);
+      
+    });
+  }, []);
+
+const handlepermision = async()=>{
+  
+ const permision = await  Notification.requestPermission();
+ if(permision === 'granted'){
+  console.log("granted");
+ }else{
+  console.log("not granted");
+ }
+
+}
+
   return (
     <div className="App">
-       <img src={logo} className="app-logo" alt="logo" />
+     <img src={logo} className="app-logo" alt="logo"  width="400px" height="500px"/>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="title" placeholder="Title" value={notificationData.title} onChange={handleChange} />
+        <input type="text" name="body" placeholder="Body" value={notificationData.body} onChange={handleChange} />
+        <input type="text" name="imageUrl" placeholder="Image URL" value={notificationData.imageUrl} onChange={handleChange} />
+        
+        <button type="submit">Send Notification</button>
+        <button onClick={handlepermision}>allow notification</button>
+      </form>
+     
     </div>
   );
 }
- 
+
+export default App;
+
+
 
  
 
 ## HERE ITS LOOK LIKE
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example1.png"/>
-
-</p>
+<img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/72934a98-5532-46a9-8471-49bbf4edf5ac">
 
 
 
@@ -88,42 +125,31 @@ If you don’t already have an account at [Firebase](https://firebase.google.com
 If you have created a project before, you will have a list of project cards. In this case, you need to click `Add project` to create a new one.
 
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example2.png"/>
-</p>
+ 
+ <img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/95bad52e-3003-46da-8c6e-5a3ffae5b853">
+ 
 
 After clicking `Add project`, we need to give the project an appropriate name.
 
-
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example3.png"/>
-</p>
-
+ <img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/87d78a4b-db77-4cf2-bb58-8278c5eb921a">
 
 
 Then we have to enable or disable analytics depending on your preference.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example4.png"/>
-</p>
+<img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/7e092afa-8596-497b-bf4a-50298362f0ac">
 
 Awesome, we have done it. Here we have `iOS`, `Android`, and `<>` web options.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example5.png"/>
-</p>
+<img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/92e27556-5093-4786-91d9-1ddb4f303cba">
 
 Next, we need to register our web app with the firebase project by clicking on the web option `<>` button. It will then generate a firebase config file which we will soon integrate into the React app.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example6.png"/>
-</p>
+<img width="835" alt="example1" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/a911fc01-45d8-4f87-b353-07a592127d8b">
 
 Let’s use the `firebase-push-notifications` nickname.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example7.png"/>
-</p>
+ 
+<img width="772" alt="example7" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/b50159b9-fb3f-4b5f-a561-d5ddb0290e44">
 
 The `firebaseConfig` will be integrated into our React app, which will link it to this particular Firebase project.
 
@@ -165,9 +191,8 @@ The `getToken` method requires parameters.
 
 You can get by clicking `Project overview > Project settings > Cloud Messaging` for your project in the Firebase Console, then scroll to the `Web configuration` section. After that, you can just click on `Generate key pair` in the `Web Push certificates` tab.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example8.png"/>
-</p>
+ 
+<img width="772" alt="example7" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/82411705-02a6-45c9-9832-acbb3a44d1b7">
 
 2. serviceWorkerRegistration
 
@@ -259,9 +284,7 @@ We checked `Notification.permission` property which indicates the current permis
 
 Cool, we are almost done.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example9.png"/>
-</p>
+<img width="828" alt="example9" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/e4b2e36e-ce8f-4852-ae7e-a6a5dc5612e4">
 
 # Receive Push Notifications
 
@@ -339,21 +362,18 @@ Now we are all set to receive both foreground and background notifications in ou
 
 We can test by going to the `Firebase Console > Cloud Messaging > Send First Message`.
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example10.png"/>
-</p>
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example11.png"/>
-</p>
+<img width="828" alt="example10" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/7cdd04cf-b3f7-4151-9b1f-6479a52b97e7">
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example12.png"/>
-</p>
 
-<p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/demo.png"/>
-</p>
+<img width="828" alt="example11" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/ab590df7-9d50-4b2f-8426-2847f506dfda">
+
+
+ 
+<img width="828" alt="example12" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/a37756cf-0438-4bf6-acf0-f05ca9a55840">
+
+ 
+<img width="835" alt="demo" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/b036cecc-cd4a-4977-8ca0-82432fcd6919">
 
 # Conclusion
 
