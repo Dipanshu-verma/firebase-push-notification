@@ -30,6 +30,8 @@ export const ganerateToken = async (notificationData) => {
       "BJg4xH49f04vbw4Ssw1-NPfST1b6IhL3LJDuqLV2_VZDac8icey0O5b0A7Tgb-N58VdBYh52dvwpsbyl0KS09Ro",
   });
 
+  console.log(token);
+
   let message = {
     to: token,
     notification: {
@@ -37,7 +39,7 @@ export const ganerateToken = async (notificationData) => {
       body: notificationData.body,
     },
   };
-
+if(notificationData){
   try {
     let res = await fetch("https://fcm.googleapis.com/fcm/send", {
       method: "POST",
@@ -53,6 +55,8 @@ export const ganerateToken = async (notificationData) => {
   } catch (error) {
     console.error(error);
   }
+}
+ 
 
   try {
     let res = await fetch("https://push-notification-yht6.onrender.com/token", {

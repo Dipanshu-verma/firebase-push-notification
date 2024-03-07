@@ -26,28 +26,16 @@ function App() {
     ganerateToken(notificationData);
   };
 
-
   
-  async function permision(){
 
-    const permision =  await Notification.requestPermission();
-    if (permision === "granted") {
-      console.log("granted");
-    } else {
-      console.log("not granted");
-    }
-  }
-  
   useEffect(() => {
-
-    permision();
+    ganerateToken(notificationData);
     onMessage(getMessaging, (payload) => {
       console.log(payload);
     });
-
   }, []);
 
- 
+
 
   return (
     <div className="App">
@@ -82,7 +70,6 @@ function App() {
         />
 
         <button type="submit">Send Notification</button>
-        
       </form>
     </div>
   );

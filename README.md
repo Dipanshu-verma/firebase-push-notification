@@ -350,7 +350,7 @@ We checked `Notification.permission` property which indicates the current permis
 
 Cool, we are almost done.
 
-<img width="828" alt="example9" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/e4b2e36e-ce8f-4852-ae7e-a6a5dc5612e4">
+<img width="828" alt="example9" src="https://github.com/Dipanshu-verma/Agriculture-Farm-Template/assets/128663583/88b801c0-2dc8-42e0-95a8-9f5b85c6f0b0">
 
 # Receive Push Notifications
 
@@ -459,7 +459,7 @@ We can test by going to the `Firebase Console > Cloud Messaging > Send First Mes
 <img width="828" alt="example12" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/a37756cf-0438-4bf6-acf0-f05ca9a55840">
 
  ```
-<img width="835" alt="demo" src="https://github.com/Dipanshu-verma/firebase-push-notification/assets/128663583/b036cecc-cd4a-4977-8ca0-82432fcd6919">
+<img width="835" alt="demo" src="https://github.com/Dipanshu-verma/Agriculture-Farm-Template/assets/128663583/e4a705c9-180e-4871-9486-55309e1d459b">
 
 # Conclusion
 
