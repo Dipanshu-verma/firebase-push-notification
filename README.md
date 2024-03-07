@@ -72,10 +72,11 @@ function App() {
 
  
 
-Here’s how it looks:
+## HERE ITS LOOK LIKE
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example1.gif">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example1.gif"/>
+
 </p>
 
 
@@ -86,38 +87,42 @@ If you don’t already have an account at [Firebase](https://firebase.google.com
 
 If you have created a project before, you will have a list of project cards. In this case, you need to click `Add project` to create a new one.
 
+
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example2.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example2.png"/>
 </p>
 
 After clicking `Add project`, we need to give the project an appropriate name.
 
+
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example3.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example3.png"/>
 </p>
+
+
 
 Then we have to enable or disable analytics depending on your preference.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example4.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example4.png"/>
 </p>
 
 Awesome, we have done it. Here we have `iOS`, `Android`, and `<>` web options.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example5.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example5.png"/>
 </p>
 
 Next, we need to register our web app with the firebase project by clicking on the web option `<>` button. It will then generate a firebase config file which we will soon integrate into the React app.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example6.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example6.png"/>
 </p>
 
 Let’s use the `firebase-push-notifications` nickname.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example7.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example7.png"/>
 </p>
 
 The `firebaseConfig` will be integrated into our React app, which will link it to this particular Firebase project.
@@ -161,7 +166,7 @@ The `getToken` method requires parameters.
 You can get by clicking `Project overview > Project settings > Cloud Messaging` for your project in the Firebase Console, then scroll to the `Web configuration` section. After that, you can just click on `Generate key pair` in the `Web Push certificates` tab.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example8.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example8.png"/>
 </p>
 
 2. serviceWorkerRegistration
@@ -194,6 +199,7 @@ Above, I created a `getOrRegisterServiceWorker` method to try and get the servic
 Also, I’m going to add a banner at the top of the page to show permission for the notification.
 
 ```js
+
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -254,7 +260,7 @@ We checked `Notification.permission` property which indicates the current permis
 Cool, we are almost done.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example9.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example9.png"/>
 </p>
 
 # Receive Push Notifications
@@ -334,19 +340,19 @@ Now we are all set to receive both foreground and background notifications in ou
 We can test by going to the `Firebase Console > Cloud Messaging > Send First Message`.
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example10.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example10.png"/>
 </p>
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example11.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example11.png"/>
 </p>
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example12.png">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/example12.png"/>
 </p>
 
 <p align="center">
-  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/demo.gif">
+  <img width="620px"src="https://raw.githubusercontent.com/Gapur/firebase-push-notifications/main/src/assets/demo.gif"/>
 </p>
 
 # Conclusion
