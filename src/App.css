@@ -12,6 +12,10 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+input:focus {
+  border-color: #6cb2eb; /* Light blue color */
+  outline: none; /* Remove default outline */
+}
 
 .App-header {
   background-color: #282c34;

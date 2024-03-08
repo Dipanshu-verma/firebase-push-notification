@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB1Dny2lUB65CXk_FCF7vwG8mq_OwI60ys",
-  authDomain: "push-edbf5.firebaseapp.com",
-  projectId: "push-edbf5",
-  storageBucket: "push-edbf5.appspot.com",
-  messagingSenderId: "992368646994",
-  appId: "1:992368646994:web:116eb7eac561ee0ec1f88b",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -30,12 +30,34 @@ export const ganerateTokenforcurrentuser = async () => {
         token,
       },
     });
-    console.log(res);
   } catch (error) {
-    alert("please give permission");
     console.error(error);
   }
 };
+
+
+
+export const sendNotificationonmultipal = async (multiData) => {
+  try {
+    let tokens = await fetch(
+      "https://push-notification-yht6.onrender.com/tokens"
+    );
+    tokens = await tokens.json();
+    tokens.forEach(async (elm) => {
+      const obj = {
+        token: elm.token,
+        title: multiData.title,
+        body: multiData.body,
+        imageUrl: multiData.imageUrl,
+      };
+
+      await ganerateToken(obj);
+    });
+  } catch (error) {
+    console.error(error.data.error);
+  }
+};
+
 
 export const ganerateToken = async (notificationData) => {
   let message = {
@@ -57,7 +79,9 @@ export const ganerateToken = async (notificationData) => {
       }
     );
 
-    console.log(res);
+    if (res.status === 200) {
+      console.log("Notification sent sucessfully");
+    }
     // Handle response
   } catch (error) {
     alert("something went wrong please try again");
