@@ -2,6 +2,10 @@
  
 The Firebase notification system is a real-time messaging solution built using Node.js, React, Express.js, MongoDB, and Tailwind CSS. It enables users to send push notifications to specific tokens or multiple tokens stored in MongoDB, with a user-friendly interface developed in React and styled using Tailwind CSS. The backend, powered by Node.js and Express.js, handles API requests, interacts with Firebase Cloud Messaging for notification delivery, and manages token storage in MongoDB using Mongoose. Users are prompted to grant notification permissions upon opening the app, ensuring timely delivery of notifications even when the app is inactive. Secure practices are implemented to safeguard sensitive data, and error handling mechanisms ensure system stability and reliability. Overall, the system provides an efficient and reliable means of communication, enhancing user engagement and interaction within the application.
 
+## Video of this project
+https://drive.google.com/file/d/1zulF328zlbnj2dKFZ5_zJX5v7fki4w-V/view?usp=sharing
+
+
 ## The home page looks like it
 
 <p align="center">
@@ -139,8 +143,7 @@ npm install firebase-admin
 
 
 
-## Video of this project
-https://drive.google.com/file/d/1Ii0HKr9hT-GOyMqO-pA3nbbFHTe0Btww/view?usp=drive_link
+
  
 
 
