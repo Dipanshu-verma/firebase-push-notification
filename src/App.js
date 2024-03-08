@@ -18,7 +18,7 @@ function App() {
     imageUrl: "",
     token: "",
   });
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+   
   const [multiData, setmultiData] = useState({
     title: "",
     body: "",
@@ -47,10 +47,11 @@ function App() {
   };
 
   useEffect(() => {
+    
     const requestNotificationPermission = async () => {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
-        ganerateTokenforcurrentuser(setToken);
+        ganerateTokenforcurrentuser();
 
         onMessage(messaging, (payload) => {
           console.log("[firebase-messaging-sw.js] Received message", payload);
@@ -85,7 +86,7 @@ function App() {
         Firebase Notification Push System
       </h1>
 
-      <p className="font-bold mb-6">Your token: {token}</p>
+     
 
       <div className="w-[80%] text-center flex justify-around items-center ">
         <div className="p-8 bg-white rounded shadow-lg w-[40%]">

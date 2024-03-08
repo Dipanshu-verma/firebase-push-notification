@@ -14,13 +14,12 @@ const app = initializeApp(firebaseConfig);
 
 export const messaging = getMessaging(app);
 
-export const ganerateTokenforcurrentuser = async (setToken) => {
+export const ganerateTokenforcurrentuser = async () => {
   const token = await getToken(messaging, {
     vapidKey:
       "BJg4xH49f04vbw4Ssw1-NPfST1b6IhL3LJDuqLV2_VZDac8icey0O5b0A7Tgb-N58VdBYh52dvwpsbyl0KS09Ro",
   });
-  setToken(token)
-  localStorage.setItem("token", token)
+  
   console.log("your current token ", token);
 
   try {
