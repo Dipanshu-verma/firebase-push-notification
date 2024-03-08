@@ -18,11 +18,12 @@ function App() {
     imageUrl: "",
     token: "",
   });
-  const[multiData, setmultiData]  =  useState({
-    title:"",
-    body:"",
-    imageUrl:"",
-  })
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [multiData, setmultiData] = useState({
+    title: "",
+    body: "",
+    imageUrl: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,13 +45,12 @@ function App() {
     e.preventDefault();
     ganerateToken(notificationData);
   };
-  
 
   useEffect(() => {
     const requestNotificationPermission = async () => {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
-        ganerateTokenforcurrentuser();
+        ganerateTokenforcurrentuser(setToken);
 
         onMessage(messaging, (payload) => {
           console.log("[firebase-messaging-sw.js] Received message", payload);
@@ -75,18 +75,17 @@ function App() {
 
   const handleSubmitformultipal = async (e) => {
     e.preventDefault();
-    
+
     sendNotificationonmultipal(multiData);
   };
-
-
-
 
   return (
     <div className="App bg-gray-100 min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold mb-6">
         Firebase Notification Push System
       </h1>
+
+      <p className="font-bold mb-6">Your token: {token}</p>
 
       <div className="w-[80%] text-center flex justify-around items-center ">
         <div className="p-8 bg-white rounded shadow-lg w-[40%]">
@@ -154,14 +153,14 @@ function App() {
             width="200px"
             height="250px"
           />
-          <form  onSubmit={handleSubmitformultipal}>
+          <form onSubmit={handleSubmitformultipal}>
             <input
               type="text"
               name="title"
               placeholder="Title"
               className="block w-full border border-gray-300 rounded p-2 mb-3 focus:border-blue-500 focus:outline-none"
               value={multiData.title}
-             onChange={handleChangeformultidata}
+              onChange={handleChangeformultidata}
             />
             <input
               type="text"
